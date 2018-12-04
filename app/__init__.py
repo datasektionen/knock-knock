@@ -13,30 +13,30 @@ def getEvents():
     return "getEvents"
 
 # This should GENERATE a list of the persons on the specified event
-@app.route('/api/event/<event>/') #GET
+@app.route('/api/event/<string:event>/') #GET
 def getPresent():
     return "getPresent"
 
 #This should generate if user has changed in/out
 # GET should generate True or False
-@app.route('/api/event/<event>/user/<user>/') #PUT/GET
+@app.route('/api/event/<string:event>/user/<ustring:ser>/') #PUT/GET
 def handleUser():
     return "handleUser"
 
 #This should generate if user(with UGID) has changed in/out
 # GET should generate True or False
-@app.route('/api/event/<event>/ugid/<ugid>/') #PUT/GET
+@app.route('/api/event/<string:event>/ugid/<string:ugid>/') #PUT/GET
 def handleUgid():
     return "handleUgid"
 
 @app.route('/knock/')
-def knock(joke):
+def knock():
     return "knock"
 
 @app.route('/knock/<string:joke>/')
 def getJoke(joke):
     jokes = [ "This is a joke", "Another joke", "A third joke, and now to the awsome"]
-    randomNumber = randint(0,len(quotes)-1)
+    randomNumber = randint(0,len(jokes)-1)
     joke = jokes[randomNumber]
     return render_template('knockknock.html',**locals())
 
