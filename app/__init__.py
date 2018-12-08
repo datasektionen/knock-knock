@@ -2,6 +2,7 @@ import json
 import requests
 from flask import Flask,render_template, request, abort
 from random import randint
+from flask_sqlalchemy import SQLAlchemy
 
 # from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
@@ -25,8 +26,8 @@ def authenticate(permission):
 def hello_world():
     return "Who's there?"
 
-@app.route('/', methods=['POST'])
 @authenticate("write")
+@app.route('/', methods=['POST'])
 def hello_worldx():
     return "POSTING LIKE A BOSS"
 
@@ -44,29 +45,29 @@ def getPresent():
 
 #This should generate if user has changed in/out
 # GET should generate True or False
-@app.route('/api/event/<string:event>/user/<string:user>/', methods=['PUT,GET']) #GET
 @authenticate("read")
+@app.route('/api/event/<string:event>/user/<string:user>/', methods=['GET']) #GET
 def handleUserGet():
     return "handleUser"
 
 #This should generate if user has changed in/out
 # PUT should change the status of the user.
-@app.route('/api/event/<string:event>/user/<string:user>/', methods=['PUT']) #PUT
 @authenticate("write")
+@app.route('/api/event/<string:event>/user/<string:user>/', methods=['PUT']) #PUT
 def handleUserPut():
     return "handleUser"
 
 #This should generate if user(with UGID) has changed in/out
 # GET should generate True or False
-@app.route('/api/event/<string:event>/ugid/<string:ugid>/',methods=['GET']) #GET
 @authenticate("read")
+@app.route('/api/event/<string:event>/ugid/<string:ugid>/',methods=['GET']) #GET
 def handleUgidGet():
     return "handleUgidGet"
 
 #This should generate if user(with UGID) has changed in/out
 # PUT should change the status of the current user
-@app.route('/api/event/<string:event>/ugid/<string:ugid>/',methods=['PUT']) #PUT
 @authenticate("write")
+@app.route('/api/event/<string:event>/ugid/<string:ugid>/',methods=['PUT']) #PUT
 def handleUgidPut():
     return "handleUgidPut"
 

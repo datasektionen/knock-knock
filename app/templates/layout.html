@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <meta charset="utf-8">
     <title>KNOCK KNOCK</title>
   </head>
   <body>
     <header>KNOCK KNOCK</header>
-    <div id="content">
-      {% block content %}
-      {% endblock %}
-    </div>
+    {%block body%}{%endblock%}
+  </body>
+  <footer>
     <div id="footer">
       {% block footer %}
-      &copy; Copyright 2010 by <a href="">Ludvig Kindberg</a>.
+      &copy; Written by <a href="">Ludvig Kindberg</a>.
       {% endblock %}
     </div>
-  </body>
+  </footer>
 </html>
