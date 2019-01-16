@@ -2,10 +2,44 @@ import json
 import requests
 from flask import Flask,render_template, request, abort
 from random import randint
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 # from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
+
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+class Log(db.Model):
+    # Event, User, time, action.
+    uig = db.Column(db.String(80), primary_key=True)
+    event = db.Column(db.String(120), unique=True) #Does this need to be unique?
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    action = db.Column(db.String(120), unique=False, nullable=False)
+    time = db.Column(db.time)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+class Present(db.Model):
+    # UIG, Email,   , .
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+
 
 def authenticate(permission):
     def foo(f):
