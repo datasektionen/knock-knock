@@ -1,6 +1,6 @@
 /* This file is to initiate the database and have a scheme on the sminut (SM-in-ut) table. */
 
-CREATE DATABASE smappen;
+CREATE DATABASE knockknock;
 
 CREATE TABLE "sm" (
     sm_id SERIAL PRIMARY KEY,
