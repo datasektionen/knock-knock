@@ -11,10 +11,10 @@ CREATE TABLE "sm" (
 
 CREATE TABLE sminut (
     id SERIAL NOT NULL PRIMARY KEY,
-    sm_id int,
+    sm_id INTEGER,
     tid_in BIGINT NOT NULL,
     tid_ut BIGINT,
     kth_id TEXT NOT NULL,
     punkt_in TEXT NOT NULL,
-    punkt_ut TEXT NOT NULL
+    punkt_ut TEXT
 );

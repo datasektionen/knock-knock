@@ -4,9 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var fetch = require('node-fetch');
 
 var apiRoutes = require('./routes/apiRoutes');
-var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -22,8 +22,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+var noAuthPaths = ['/api/getSMInSession', '/api/getAllMembersInside', '/api/getAllMembersOfSm', '/api/getAllSM', '/api/isCheckedIn']
+
+
+var pls_check = (req, res, next) => {
+  if(noAuthPaths.includes(req.path)) {
+    next()
+    return
+  }
+  fetch('https://pls.datasektionen.se/api/token/' + req.body.key + '/knockknock')
+    .then(response => response.json())
+    .then(json => {
+      if(!json.includes('admin')) {
+        res.staus(401)
+        res.send("No access, must have correct rights.")
+        return
+      } else {
+        next()
+        return
+      }
+    }).catch(err => {
+      console.log('fetch error', err);
+      res.status(500)
+      res.send(err)
+      return
+    });
+};
+
+
+app.all('/api/*', pls_check);
 app.use('/api', apiRoutes);
-app.use('/users', usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
