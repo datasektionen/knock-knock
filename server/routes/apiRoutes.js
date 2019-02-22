@@ -234,6 +234,12 @@ router.get('/endCurrentSM', function(req, res) {
   })
 })
 
+/* Generates a knock-knock joke */
+router.get('/knock-knock', function(req, res) {
+  res.json({joke: "Knock, knock. \nRace condition. \nWho’s there."})
+})
+
+
 /* POST FUNCTIONS */
 
 router.post('/isCheckedIn', function(req, res) {
