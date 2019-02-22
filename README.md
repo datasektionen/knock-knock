@@ -1,6 +1,33 @@
+# Knock-knock
+
+The computer science chapters system for holding information about attendance at SM.
+
+Frontend and more in TODO
+
 ## Available Scripts
 
-In the project directory, you can run:
+Run `npm install` in both root and server/
+Run `npm start` in root to start frontend and in server/ to start backend.
+
+frontend on localhost:3000
+backend on localhost:4000
+
+## Endpoints
+/api/knock-knock - a knock knock joke
+
+** Public **
+GET /api/getSMinSession - get the current active SM that is in session
+GET /api/getAllMembersInsideSM - get all members of the above SM in session
+POST /api/GetAllMembersOfSm - get all members of a SM identified by the sm_id
+GET /api/getAllSM - get a list of all SM sessions
+POST /api/isCheckedIn - check if a user is checked in to the session using their kth_id
+
+** Need pls-token "admin" **
+POST /api/createNewSM - create a new SM session if there already is none running - define a new SM by its sm_name
+GET /api/endCurrentSM - end the current SM in session
+POST /api/checkIn - checks in a member into the currect active SM session - check in a new member by their kth_id and at what punkt_in
+POST /api/checkOut - checks out a member that is in the currect active SM session - check out a member by their kth_id and at what punkt_ut
+
 
 ### `npm start`
 
