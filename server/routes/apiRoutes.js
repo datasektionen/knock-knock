@@ -214,7 +214,21 @@ router.get('/getAllSM', function(req, res) {
     };
     res.json(obj);
   })
-}) 
+})
+
+/* get in-ut-lista */
+router.get('/getAllSMInUt', function(req, res) {
+  db.any('SELECT * FROM sminut WHERE sm_id = $1 ORDER BY id DESC;', [smInSession.sm_id])
+    .then( function(data) {
+      res.json(data)
+    })
+    .catch(function(err) {
+      console.log('Error; ', err);
+      res.status(500);
+      res.send(err);
+      return
+    })
+})
 
 /* End the current SM in session */
 router.get('/endCurrentSM', function(req, res) {
@@ -339,8 +353,6 @@ router.post('/getAllMembersOfSm', function(req, res) {
 
 
 /* MISC. FUNCTIONS */
-
-
 
 // Read current SM from db if crash or restart.
 initSM();
