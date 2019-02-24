@@ -8,7 +8,9 @@ class MemberList extends Component {
         super(props)
 
         this.state = {
-            SMInSession: {},
+            SMInSession: {
+                sm_name: "Inget SM är igång"
+            },
             membersInside: [],
             sminut: [],
             state: { time: Date.now() }

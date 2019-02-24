@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
 
-class Admin extends Component {
+class SMList extends Component {
 
     render() {
         return (
@@ -9,12 +9,12 @@ class Admin extends Component {
             <Paper>
                 <div className="Header">
                     <div>
-                        <h1>Admin</h1>
+                        <h1>SM-lista</h1>
                     </div>
                 </div>
-            </Paper>    
+            </Paper>  
         </div>)
     }
 }
 
-export default Admin;
+export default SMList;
