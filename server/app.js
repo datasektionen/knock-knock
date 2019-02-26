@@ -50,18 +50,19 @@ var loginAuthPls = (req, res, next) => {
           return
         }
       }).catch(err => {
-        console.log('fetch error', err);
+        console.log('fetch error login', err);
         res.status(500)
         res.send(err)
         return
       });
     }).catch(e => next(new Error('Authentication error from after pls-fetch')))
   } else if(req.query.api_key){
-    fetch('https://pls.datasektionen.se/api/token/' + req.body.key + '/knockknock')
+    console.log(req.query.api_key)
+    fetch('https://pls.datasektionen.se/api/token/' + req.query.api_key + '/knockknock')
       .then(response => response.json())
       .then(json => {
         if(!json.includes('admin')) {
-          res.staus(403)
+          res.status(403)
           res.send("Forbidden")
           return
         } else {
@@ -69,7 +70,7 @@ var loginAuthPls = (req, res, next) => {
           return
         }
       }).catch(err => {
-        console.log('fetch error', err);
+        console.log('fetch error api-key', err);
         res.status(500)
         res.send(err)
         return
