@@ -1,0 +1,12 @@
+#buttonContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+#createSMContainer {
+    padding: 20px;
+}
+
+#endSMContainer {
+    padding: 20px;
+}

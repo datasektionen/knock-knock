@@ -6,19 +6,20 @@ Frontend and more in TODO
 
 ## Available Scripts
 
-Run `npm install` in both root and server/
-Run `npm start` in root to start frontend and in server/ to start backend.
+Run `npm install` in both root and server/<br>
+Run `npm start` in root to start frontend and in server/ to start backend.<br>
 
-frontend on localhost:3000
-backend on localhost:4000
+frontend on localhost:3000<br>
+backend on localhost:4000<br>
 
 ## Endpoints
+
 /api/knock-knock - a knock knock joke
 
 **Public**<br>
 GET /api/getSMinSession - get the current active SM that is in session<br>
 GET /api/getAllMembersInsideSM - get all members of the above SM in session<br>
-POST /api/GetAllMembersOfSm - get all members of a SM identified by the sm_id<br>
+POST /api/GetAllMembersOfSM - get all members of a SM identified by the sm_id<br>
 GET /api/getAllSM - get a list of all SM sessions<br>
 POST /api/isCheckedIn - check if a user is checked in to the session using their kth_id<br>
 

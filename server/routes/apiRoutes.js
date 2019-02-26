@@ -48,7 +48,7 @@ function getAllMembersInside(callback) {
 }
 
 /* Get all the members that were in the SM. */
-function getAllMembersOfSm(sm_id, callback) {
+function getAllMembersOfSM(sm_id, callback) {
   if(sm_id === "") {
     return callback(1, "No sm_id supplied, no members returned.");
   }
@@ -336,8 +336,8 @@ router.post('/createNewSM', function(req, res) {
 })
 
 /* Get all members of supplied sm_id */
-router.post('/getAllMembersOfSm', function(req, res) {
-  getAllMembersOfSm(req.param('sm_id'), function(err, obj) {
+router.post('/getAllMembersOfSM', function(req, res) {
+  getAllMembersOfSM(req.param('sm_id'), function(err, obj) {
     if(err === 1) {
       res.status(400)
       res.send(obj)

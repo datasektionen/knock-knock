@@ -27,33 +27,64 @@ app.use(bodyParser.json());
 
 var noAuthPaths = ['/api/getSMInSession', '/api/getAllMembersInside', '/api/getAllMembersOfSm', '/api/getAllSM', '/api/isCheckedIn', '/api/knock-knock', '/api/getAllSMInUt']
 
-
-var pls_check = (req, res, next) => {
+var loginAuthPls = (req, res, next) => {
   if(noAuthPaths.includes(req.path)) {
     next()
     return
   }
-  fetch('https://pls.datasektionen.se/api/token/' + req.body.key + '/knockknock')
-    .then(response => response.json())
-    .then(json => {
-      if(!json.includes('admin')) {
-        res.staus(401)
-        res.send("No access, must have correct rights.")
+  if(req.query.token) {
+    fetch('https://login2.datasektionen.se/verify/' + req.query.token + "?format=json&api_key=" + process.env.LOGIN2_API_KEY)
+    .then(x => x.json())
+    .catch(e => next(new Error('Authentication error from login')))
+    .then(x => {
+      console.log('User ' + x.first_name + ' ' + x.last_name + ' (' + x.user + ') authenticated')
+      fetch('https://pls.datasektionen.se/api/user/' + x.user + '/knockknock')
+      .then(response => response.json())
+      .then(json => {
+        if(!json.includes('admin')) {
+          res.staus(403)
+          res.send("No access, must have correct rights.")
+          return
+        } else {
+          next()
+          return
+        }
+      }).catch(err => {
+        console.log('fetch error', err);
+        res.status(500)
+        res.send(err)
         return
-      } else {
-        next()
+      });
+    }).catch(e => next(new Error('Authentication error from after pls-fetch')))
+  } else if(req.query.api_key){
+    fetch('https://pls.datasektionen.se/api/token/' + req.body.key + '/knockknock')
+      .then(response => response.json())
+      .then(json => {
+        if(!json.includes('admin')) {
+          res.staus(403)
+          res.send("Forbidden")
+          return
+        } else {
+          next()
+          return
+        }
+      }).catch(err => {
+        console.log('fetch error', err);
+        res.status(500)
+        res.send(err)
         return
-      }
-    }).catch(err => {
-      console.log('fetch error', err);
-      res.status(500)
-      res.send(err)
-      return
-    });
-};
+      });
+  } else {
+      console.log("No access, no auth")
+      res.status(401)
+      res.send("Forbidden")
+  }
+}
+  
+  
+// COMMENT AWAY ROW BELOW TO SKIP AUTH FOR DEV, otherwise you need a token
+app.all('/api/*', loginAuthPls);
 
-
-app.all('/api/*', pls_check);
 app.use('/api', apiRoutes);
 
 

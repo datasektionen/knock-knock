@@ -11,6 +11,7 @@ CREATE TABLE "sm" (
 
 CREATE TABLE sminut (
     id SERIAL NOT NULL PRIMARY KEY,
+    namn TEXT,
     sm_id INTEGER,
     tid_in BIGINT NOT NULL,
     tid_ut BIGINT,
