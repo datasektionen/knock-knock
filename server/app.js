@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-var noAuthPaths = ['/api/getSMInSession', '/api/getAllMembersInside', '/api/getAllMembersOfSm', '/api/getAllSM', '/api/isCheckedIn', '/api/knock-knock', '/api/getAllSMInUt']
+var noAuthPaths = ['/api/getSMInSession', '/api/getAllMembersInside', '/api/getAllMembersOfSm', '/api/getAllSM', '/api/isCheckedIn', '/api/knock-knock', '/api/getAllSMInUt', '/api/isAdmin']
 
 var loginAuthPls = (req, res, next) => {
   if(noAuthPaths.includes(req.path)) {

@@ -358,6 +358,33 @@ router.post('/getAllMembersOfSM', function(req, res) {
   })  
 })
 
+router.post('/isAdmin', function(req, res) {
+  fetch('https://login2.datasektionen.se/verify/' + req.query.token + "?format=json&api_key=" + process.env.LOGIN2_API_KEY)
+    .then(x => x.json())
+    .catch(e => new Error('Authentication error from login'))
+    .then(x => {
+      console.log('User ' + x.first_name + ' ' + x.last_name + ' (' + x.user + ') authenticated')
+      fetch('https://pls.datasektionen.se/api/user/' + x.user + '/knockknock')
+      .then(response => response.json())
+      .then(json => {
+        if(!json.includes('admin')) {
+          res.staus(200)
+          res.json({isAdmin: false})
+          return
+        } else {
+          res.status(200)
+          res.json({isAdmin: true})
+          return
+        }
+      }).catch(err => {
+        console.log('fetch error login', err);
+        res.status(500)
+        res.send(err)
+        return
+      });
+    }).catch(e => new Error('Authentication error from after pls-fetch'))
+})
+
 
 /* MISC. FUNCTIONS */
 
