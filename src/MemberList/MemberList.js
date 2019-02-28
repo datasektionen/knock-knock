@@ -70,14 +70,14 @@ class MemberList extends Component {
     }
 
     render() {
-
+        console.log(this.state.membersInside)
         const narvaro = this.state.membersInside.map((person, index) =>
-            <td key={index} className="tableRow">{person.kth_id}</td>
+            <td key={index} className="tableRow">{person.namn}</td>
         );
 
         const sminut = this.state.sminut.map((event) =>
             <tr key={event.id} className="tableRow">
-                <td>{event.kth_id}</td>
+                <td>{event.namn}</td>
                 <td>{this.toTime(event.tid_in)}</td>
                 <td>{this.toTime(event.tid_ut)}</td>
                 <td>{event.punkt_in}</td>

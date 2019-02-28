@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pgp = require('pg-promise')(/*options*/)
+var fetch = require('node-fetch');
 
 // Use when on mjukglass
 var db_string = "postgres://" + process.env.DB_USER
@@ -37,7 +38,7 @@ function initSM() {
 
 /* Get all the members that are checked inside the SM. */
 function getAllMembersInside(callback) {
-  db.any('SELECT DISTINCT kth_id FROM sminut WHERE tid_in IS NOT NULL AND tid_ut IS NULL;', )
+  db.any('SELECT DISTINCT ON (kth_id) kth_id, namn FROM sminut WHERE tid_in IS NOT NULL AND tid_ut IS NULL;', )
     .then(function (data) {
       return callback(null, data)
     })
@@ -52,7 +53,7 @@ function getAllMembersOfSM(sm_id, callback) {
   if(sm_id === "") {
     return callback(1, "No sm_id supplied, no members returned.");
   }
-  db.any('SELECT DISTINCT kth_id FROM sminut WHERE sm_id = $1', [sm_id])
+  db.any('SELECT DISTINCT ON (kth_id) kth_id, namn FROM sminut WHERE sm_id = $1', [sm_id])
     .then(function (data) {
       return callback(null, data)
     })
@@ -157,14 +158,20 @@ function checkIn(kth_id, punkt_in, callback) {
   if(smInSession['sm_id'] == null) {
     return callback(1, "No SM in session, create one.")
   }
-  db.none("INSERT INTO sminut (sm_id, tid_in, kth_id, punkt_in) VALUES ($1, $2, $3, $4)", [smInSession['sm_id'], date.getTime(), kth_id, punkt_in])
-    .then( function (data) {
-      return callback(null, kth_id + " is now checked in.")
-    })
-    .catch(function (err) {
-      console.log('Error; ', err);
-      return callback(err, "Someting unexpected happened, see logs");
-    })
+
+  fetch("https://hodis.datasektionen.se/uid/" + kth_id)
+    .then(response => response.json())
+    .catch(e => new Error('Authentication error from login'))
+    .then(response => {
+      db.none("INSERT INTO sminut (sm_id, tid_in, kth_id, punkt_in, namn) VALUES ($1, $2, $3, $4, $5)", [smInSession['sm_id'], date.getTime(), kth_id, punkt_in, response.displayName])
+        .then( function (data) {
+          return callback(null, response.displayName + " is now checked in (" + kth_id + ").")
+        })
+        .catch(function (err) {
+          console.log('Error; ', err);
+          return callback(err, "Something unexpected happened, see logs");
+      })
+    }).catch(e => new Error('Something went wrong when looking up the user-id' + kth_id + ", only adding userid."))
 }
 
 /* Check out a member from SM */

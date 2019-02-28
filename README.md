@@ -23,7 +23,7 @@ POST /api/GetAllMembersOfSM - get all members of a SM identified by the sm_id<br
 GET /api/getAllSM - get a list of all SM sessions<br>
 POST /api/isCheckedIn - check if a user is checked in to the session using their kth_id<br>
 
-**Need pls-token "admin"**<br>
+**Need pls-token "admin" or login + pls "admin"**<br>
 POST /api/createNewSM - create a new SM session if there already is none running - define a new SM by its sm_name<br>
 GET /api/endCurrentSM - end the current SM in session<br>
 POST /api/checkIn - checks in a member into the currect active SM session - check in a new member by their kth_id and at what punkt_in<br>
