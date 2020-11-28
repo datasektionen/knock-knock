@@ -30,7 +30,7 @@ class App extends Component {
             <Route exact path={routes.HOME} component={() => <MemberList {...this.state} />}/>
             <Route exact path={routes.ADMIN} component={() => <Admin {...this.state} />}/>
             <Route exact path={routes.SM_LIST} component={() => <SMlist {...this.state} />}/>
-            <Route exact path='/login' render={match => {window.location = `https://login2.datasektionen.se/login?callback=${encodeURIComponent(window.location.origin)}/token/` }} />
+            <Route exact path='/login' render={match => {window.location = `https://login.datasektionen.se/login?callback=${encodeURIComponent(window.location.origin)}/token/` }} />
             <Route path='/token/:token' render={({match}) => {
               localStorage.setItem('token', match.params.token)
 

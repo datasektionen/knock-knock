@@ -33,7 +33,7 @@ var loginAuthPls = (req, res, next) => {
     return
   }
   if(req.query.token) {
-    fetch('https://login2.datasektionen.se/verify/' + req.query.token + "?format=json&api_key=" + process.env.LOGIN2_API_KEY)
+    fetch('https://login.datasektionen.se/verify/' + req.query.token + "?format=json&api_key=" + process.env.LOGIN_API_KEY)
     .then(x => x.json())
     .catch(e => next(new Error('Authentication error from login')))
     .then(x => {

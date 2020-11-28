@@ -359,7 +359,7 @@ router.post('/getAllMembersOfSM', function(req, res) {
 })
 
 router.post('/isAdmin', function(req, res) {
-  fetch('https://login2.datasektionen.se/verify/' + req.query.token + "?format=json&api_key=" + process.env.LOGIN2_API_KEY)
+  fetch('https://login.datasektionen.se/verify/' + req.query.token + "?format=json&api_key=" + process.env.LOGIN_API_KEY)
     .then(x => x.json())
     .catch(e => new Error('Authentication error from login'))
     .then(x => {
